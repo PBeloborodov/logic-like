@@ -10,7 +10,9 @@ export const CardCours: FC<CardCoursProps> = ({cours}) => {
   return (
     <View style={styles.dropShadow}>
       <View style={[styles.wrap, {backgroundColor: cours.bgColor}]}>
-        <ImageBackground source={{uri: cours.image}} style={styles.img} />
+        <View style={styles.imgWrap}>
+          <ImageBackground source={{uri: cours.image}} />
+        </View>
         <View style={styles.title}>
           <Text style={styles.text}>{cours.name}</Text>
         </View>
@@ -33,10 +35,13 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: 'hidden',
   },
-  img: {
+  imgWrap: {
     width: '100%',
     height: 162,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  img: {},
   title: {
     flex: 1,
     alignItems: 'center',

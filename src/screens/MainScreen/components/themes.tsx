@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {FC} from 'react';
+import IconArrow from '@/assets/img/svg/arrow-down.svg';
 
 type Props = {
   theme?: string;
@@ -16,7 +17,9 @@ export const Themes: FC<Props> = ({theme}) => {
     <TouchableOpacity style={styles.wrap}>
       <View style={styles.btn}>
         <Text style={styles.btnText}>Все темы</Text>
-        <View style={styles.select}>{/* <IconArrow /> */}</View>
+        <View style={styles.select}>
+          <IconArrow />
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     width: Dimensions.get('window').width,
-    top: 12,
+    top: 30,
   },
   btn: {
     borderRadius: 40,
