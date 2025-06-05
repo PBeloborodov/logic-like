@@ -1,14 +1,39 @@
-import {FC} from 'react';
+import {FC, useMemo, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '@/types/navigation';
+import {useNavigation} from '@react-navigation/native';
+import {useCourses} from '@/hooks/API/useCourses';
+import {FlashList} from '@shopify/flash-list';
+import {CardCours} from './components/card-cours';
+import {Themes} from './components/themes';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'main'>;
 
 export const MainScreen: FC<Props> = () => {
+  const navigation = useNavigation<Props['navigation']>();
+  const {courses} = useCourses();
+  const [tagCourses, setTagCourses] = useState<string>();
+
+  console.log('courses', courses);
+
+  const formatCourses = useMemo(() => {
+    if (!tagCourses) {
+      return courses;
+    }
+    return courses.filter(course => course.tags.includes(tagCourses));
+  }, [courses, tagCourses]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Главный экран</Text>
+      <Themes />
+      <FlashList
+        data={formatCourses}
+        estimatedItemSize={210}
+        renderItem={({item}) => <CardCours cours={item} />}
+        horizontal
+        keyExtractor={item => item.id.toString()}
+      />
     </View>
   );
 };
@@ -16,12 +41,8 @@ export const MainScreen: FC<Props> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignContent: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    backgroundColor: '#7446EE',
   },
 });
