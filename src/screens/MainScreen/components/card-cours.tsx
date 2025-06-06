@@ -1,6 +1,7 @@
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {Cours} from '@/hooks/API/useCourses';
+import {ImageLoader} from '@/components/image-loader';
 
 type CardCoursProps = {
   cours: Cours;
@@ -11,7 +12,7 @@ export const CardCours: FC<CardCoursProps> = ({cours}) => {
     <View style={styles.dropShadow}>
       <View style={[styles.wrap, {backgroundColor: cours.bgColor}]}>
         <View style={styles.imgWrap}>
-          <ImageBackground source={{uri: cours.image}} />
+          <ImageLoader url={cours.image} />
         </View>
         <View style={styles.title}>
           <Text style={styles.text}>{cours.name}</Text>
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#5A5776',
-    // fontFamily: 'Nunito',
+    fontFamily: 'Nunito',
     fontWeight: '800',
     fontSize: 14,
   },

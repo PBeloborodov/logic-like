@@ -1,40 +1,46 @@
-import {FC, useMemo, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {FC, useCallback, useMemo} from 'react';
+import {View, StyleSheet} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '@/types/navigation';
-import {useNavigation} from '@react-navigation/native';
 import {useCourses} from '@/hooks/API/useCourses';
 import {FlashList} from '@shopify/flash-list';
 import {CardCours} from './components/card-cours';
 import {Themes} from './components/themes';
 import {colors} from '@/constants/colors';
+import Loader from '@/components/loader';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'main'>;
 
-export const MainScreen: FC<Props> = () => {
-  const navigation = useNavigation<Props['navigation']>();
-  const {courses} = useCourses();
-  const [tagCourses, setTagCourses] = useState<string>();
-
-  console.log('courses', courses);
+export const MainScreen: FC<Props> = ({navigation, route}) => {
+  const {courses, loading, error} = useCourses();
+  const {tag} = route.params;
 
   const formatCourses = useMemo(() => {
-    if (!tagCourses) {
+    if (tag === 'Все темы') {
       return courses;
     }
-    return courses.filter(course => course.tags.includes(tagCourses));
-  }, [courses, tagCourses]);
+    return courses.filter(course => course.tags.includes(tag));
+  }, [courses, tag]);
+  tag;
+
+  const goFiltersScreen = useCallback(() => {
+    navigation.navigate('filters', {tag: tag});
+  }, [navigation, tag]);
 
   return (
     <View style={styles.container}>
-      <Themes />
-      <FlashList
-        data={formatCourses}
-        estimatedItemSize={210}
-        renderItem={({item}) => <CardCours cours={item} />}
-        horizontal
-        keyExtractor={item => item.id.toString()}
-      />
+      <Themes onPress={goFiltersScreen} themes={tag} />
+      {loading && <Loader />}
+      {formatCourses.length > 0 && (
+        <FlashList
+          data={formatCourses}
+          estimatedItemSize={210}
+          renderItem={({item}) => <CardCours cours={item} />}
+          horizontal
+          keyExtractor={item => item.id.toString()}
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };

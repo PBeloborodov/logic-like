@@ -7,22 +7,28 @@ import {RootStackParamList} from '@/types/navigation';
 import {FiltersScreen} from '@/screens/FiltersScreen';
 import {StatusBar} from 'react-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import {colors} from '@/constants/colors';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   useEffect(() => {
-    changeNavigationBarColor('transparent', false);
+    changeNavigationBarColor(colors.mainBackground, false);
   }, []);
-
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="main" component={MainScreen} />
+          <Stack.Screen
+            name="main"
+            component={MainScreen}
+            initialParams={{tag: 'Все темы'}}
+            options={{animation: 'fade'}}
+          />
           <Stack.Screen name="filters" component={FiltersScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      <StatusBar backgroundColor="transparent" translucent={true} />
+      <StatusBar animated={true} backgroundColor={colors.mainBackground} />
     </>
   );
 }

@@ -19,6 +19,7 @@ module.exports = {
           '@store': './src/store'
         }
       }
-    ]
+    ],
+    'react-native-reanimated/plugin',
   ]
 };

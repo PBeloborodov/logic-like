@@ -7,16 +7,18 @@ import {
 } from 'react-native';
 import React, {FC} from 'react';
 import IconArrow from '@/assets/img/svg/arrow-down.svg';
+import {colors} from '@/constants/colors';
 
 type Props = {
-  theme?: string;
+  onPress: () => void;
+  themes: string;
 };
 
-export const Themes: FC<Props> = ({theme}) => {
+export const Themes: FC<Props> = ({onPress, themes}) => {
   return (
-    <TouchableOpacity style={styles.wrap}>
+    <TouchableOpacity style={styles.wrap} onPress={onPress}>
       <View style={styles.btn}>
-        <Text style={styles.btnText}>Все темы</Text>
+        <Text style={styles.btnText}>{themes}</Text>
         <View style={styles.select}>
           <IconArrow />
         </View>
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 14,
     fontFamily: 'Nitro',
     fontWeight: '800',
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
     borderRadius: 100,
     backgroundColor: 'rgba(0,0,0, 0.2)',
     marginLeft: 5,

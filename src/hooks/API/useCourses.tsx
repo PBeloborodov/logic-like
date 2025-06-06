@@ -19,7 +19,6 @@ export const useCourses = () => {
         const {data} = await axios.get<Cours[]>(
           'https://logiclike.com/docs/courses.json',
         );
-        console.log(data);
         setCourses(data);
       } catch (err) {
         setError('Ошибка при загрузке курсов');
