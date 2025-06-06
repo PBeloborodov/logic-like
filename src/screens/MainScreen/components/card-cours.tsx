@@ -12,7 +12,7 @@ export const CardCours: FC<CardCoursProps> = ({cours}) => {
     <View style={styles.dropShadow}>
       <View style={[styles.wrap, {backgroundColor: cours.bgColor}]}>
         <View style={styles.imgWrap}>
-          <ImageLoader url={cours.image} />
+          <ImageLoader url={cours.image} imgStyle={styles.img} />
         </View>
         <View style={styles.title}>
           <Text style={styles.text}>{cours.name}</Text>
@@ -42,7 +42,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  img: {},
+  img: {
+    width: 144,
+    height: 144,
+  },
   title: {
     flex: 1,
     alignItems: 'center',
